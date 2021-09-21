@@ -20,14 +20,14 @@ exports.getAllJobs = async (req, res) => {
         .populate("company", "name")
         .skip(resPerPage * page - resPerPage)
         .limit(resPerPage);
-    const numOfJobs = await Job.estimatedDocumentCount();
+    const numOfJobs = jobs.length;
 
       res.status(200).json({
         Result: jobs,
         currentPage: page,
         pages: Math.ceil(numOfJobs / resPerPage),
-        searchVal:req.query.search,
-        TotalJobs:numOfJobs
+        searchVal: `Search: ${req.query.search} & Type: ${req.query.type}`,
+        TotalJobs: numOfJobs,
       });
     } catch (err) {
         console.log(err);
@@ -54,7 +54,6 @@ exports.getAllJobs = async (req, res) => {
         Result: jobs,
         currentPage: page,
         pages: Math.ceil(numOfJobs / resPerPage),
-        searchVal: req.query.search,
         TotalJobs: numOfJobs,
       });
 
